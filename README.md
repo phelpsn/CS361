@@ -1,6 +1,5 @@
 CS361 Hunger Connect
 =====
-
 1. As a user, I want to see the map of the world indicating areas that
 	need donations.
 2. As a user, I want to click on a location and donate to that region.
@@ -18,4 +17,5 @@ CS361 Hunger Connect
 	that needed to be added.
 10. As a system administrator, I want to be able to authorize new charities.
 
-
+Thanks for reading me.
+ 
