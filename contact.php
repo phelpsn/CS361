@@ -1,9 +1,12 @@
  <?php 
- $to = "davidmeehan7@gmail.com" ; 
+ 
+ $to = "tunnissj@onid.orst.edu" ; 
  $from = $_REQUEST['Email'] ; 
  $name = $_REQUEST['Name'] ; 
- $headers = "From: $from"; 
+ $headers = "From: $from";
  $subject = "Web Contact Data"; 
+ 
+ $charity_name = $_REQUEST['Company'];
  
  $fields = array(); 
  $fields{"Name"} = "Name"; 
@@ -13,7 +16,35 @@
  $fields{"list"} = "Mailing List"; 
  $fields{"Message"} = "Message"; 
  
- $body = "We have received the following information:\n\n"; foreach($fields as $a => $b){ 	$body .= sprintf("%20s: %s\n",$b,$_REQUEST[$a]); } 
+ // Get charity provided 'special' info
+ $fields{"Message_special"} = "Special Message";
+ $fields{"video_link"} = "Video URL";
+ 
+ /* File upload code */
+ 
+ // verify folder exists. If not then create it.
+ if (!is_dir('charity_uploads/')) {
+    mkdir('charity_uploads/');
+}
+ 
+ $target_path = "charity_uploads/" . $charity_name . "_" .basename($_FILES['uploadedfile']['name']);
+ 
+ // Upload file to charity_uploads folder, notify if error
+ if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+ }
+ else{
+    echo "There was an error uploading the file, please try again!\n\n";
+ }
+ 
+// -----------------------------------
+
+
+ $body = "We have received the following information:\n\n"; foreach($fields as $a => $b){ 	$body .= sprintf("%20s: %s\n",$b,$_REQUEST[$a]); }
+ 
+ // Append image name dynamically since it won't be covered by loop
+ $body .= "Image Name (on local server): " . $target_path;
+
+ 
  
  $headers2 = "From: noreply@hungerconnect.com"; 
  $subject2 = "Thank you for contacting us"; 
@@ -30,11 +61,11 @@
  {
  ?>
 <p> Success!</p>
- <p><a href = "index.html"> Home</a></p>
+ <p><a href = "index.php"> Home</a></p>
  <?php
  } 
  else 
  {print "We encountered an error sending your mail, please notify webmaster@hungerconnect.com"; } 
  }
 }
- ?> 
+ ?>

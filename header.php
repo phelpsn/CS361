@@ -1,4 +1,6 @@
-<a href="index.html"><img src="http://i.imgur.com/E0iWs.jpg"></a>
+<div id="banner">
+	<a href="index.php"><img src="http://i.imgur.com/E0iWs.jpg"></a>
+</div>
 <div id="menu">
 <ul>
 	<li><a href="index.php">Homepage</a></li>

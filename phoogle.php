@@ -47,7 +47,7 @@ class PhoogleMap{
          * mapWidth 
          * width of the Google Map, in pixels 
          */ 
-        var $mapWidth = 650; 
+        var $mapWidth = 780; 
         /** 
          * mapHeight 
          * height of the Google Map, in pixels 

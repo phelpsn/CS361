@@ -3,12 +3,16 @@
 
                 <TITLE>Charity Regions</TITLE>
                 <link rel="stylesheet" type="text/css" href="web.css" />
-
+				<link rel="stylesheet" type="text/css" href="style.css" />
         </HEAD>
 
         <BODY>
-
-        <div id="top"><span id="middle"><span id="end">
+	
+		<?php include 'header.php' ?>
+		
+		<div id="content">
+		
+        
 
         <!--<h1><img src="Charity.jpeg" width = "385" height = "256" />Charity Regions</h1>-->
 		<h1>Charity Regions</h1>
@@ -40,7 +44,7 @@
                    $latitude=$row['latitude']; 
                    $description=$row['description'];
 				   $name=$row['name'];
-				   $bubbletext=$name . " Charity - " . $description;
+				   $bubbletext=$name . " Charity - " . $description."<p><a  onclick='postToFeed();return false;'><font color='blue'><u> Donate</u></font></a></p><p id='msg'></p>";
                    $map->addGeoPoint($latitude,$longitude, $bubbletext); 
                 }
 
@@ -53,11 +57,35 @@
 
         ?>
 
-        <p id="nospace"><a href="index.html">Home</p>
+	
+<div id='fb-root'></div>
+    <script src='http://connect.facebook.net/en_US/all.js'></script>
+	<script>
+	FB.init({appId: "511374655547520", status: true, cookie: true});
+function postToFeed() {
+		
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          //redirect_uri: 'http://web.engr.oregonstate.edu/~meehand',
+          link: 'http://web.engr.oregonstate.edu/~meehand',
+          picture: 'http://i.imgur.com/AfFe8.jpg',
+          name: 'Hunger Connect',
+          caption: 'I donated to a charity!',
+          description: 'I\'m better than you because I donated to the less fortunate.'
+        };
 
-        </div></span></span>
+        function callback(response) {
+          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+        }
+
+        FB.ui(obj, callback);
+      }
+
+</script>
 
 
+		</div>
         </BODY>
 
 </HTML>
