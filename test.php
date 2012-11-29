@@ -22,9 +22,9 @@
                 require_once 'phoogle.php';
 
 				$dbhost = 'oniddb.cws.oregonstate.edu';
-                $dbname = 'phelpsn-db';
-                $dbuser = 'phelpsn-db';
-                $dbpass = 'O8PVgYSwdBRJeT2L';
+                $dbname = 'bauermec-db';
+                $dbuser = 'bauermec-db';
+                $dbpass = '3oOrH2Zp73LGtjGm';
 
                 $mysql_handle = mysql_connect($dbhost, $dbuser, $dbpass)
                         or die("Error connecting to database server");
@@ -37,14 +37,36 @@
                 $map->setAPIKey("AIzaSyC4ekwyKAcgK9oE5LBdO924C3saPpT2y-M");
 				$map->printGoogleJS();
                  
-                $sql = 'SELECT longitude, latitude, description, name FROM `Charity`'; 
+                $sql = 'SELECT Longitude, Latitude, Description, Name, R_id FROM Region'; 
+				
+				
+				
                 $result=mysql_query($sql,$mysql_handle); 
                 while($row=mysql_fetch_array($result)){ 
-                   $longitude=$row['longitude']; 
-                   $latitude=$row['latitude']; 
-                   $description=$row['description'];
-				   $name=$row['name'];
-				   $bubbletext=$name . " Charity - " . $description."<p><a  onclick='postToFeed();return false;'><font color='blue'><u> Donate</u></font></a></p><p id='msg'></p>";
+                   $longitude=$row['Longitude']; 
+                   $latitude=$row['Latitude']; 
+                   $description=$row['Description'];
+				   $name=$row['Name'];
+				   $R_id = $row['R_id'];
+				   
+				   $sql2 = "SELECT C_id FROM Charity_In_Region WHERE R_id = '".$R_id."'";
+				   
+				   
+				   $result2 = mysql_query($sql2,$mysql_handle);
+				   $row2 = mysql_fetch_array($result2);
+				   $sql2 = "SELECT Name From Charity WHERE C_id = '".$row2['C_id']."'";
+				   
+				   
+				   $result2 = mysql_query($sql2,$mysql_handle);
+				   $row2 = mysql_fetch_array($result2);
+				   $Cname = $row2['Name'];
+				   
+				   
+				   
+				   $bubbletext= "<p>".$Cname ." In ".$name . "</p>";
+				   if($description != NULL)
+						$bubbletext .= "<p> - " . $description."</p>";
+				   $bubbletext .= "<p><a  onclick='postToFeed();return false;'><font color='blue'><u> Donate</u></font></a></p><p id='msg'></p>";
                    $map->addGeoPoint($latitude,$longitude, $bubbletext); 
                 }
 
